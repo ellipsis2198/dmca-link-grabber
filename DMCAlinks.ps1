@@ -53,7 +53,7 @@ function getLinks($uri, $subpath="", $pagination="", $minLength=52, $requireUser
         $workingUrl = $url
       }
       if ($workingUrl.Length -ge $MinLength) {
-        if ($requiredText -eq "" -OR $workingUrl.Contains($requiredText)) {
+        if ($requiredText -eq "" -Or $workingUrl.Contains($requiredText)) {
             $urlList.Add($workingUrl) > $null
         }
       }
@@ -65,12 +65,14 @@ function getLinks($uri, $subpath="", $pagination="", $minLength=52, $requireUser
     $count++ 
   }
   Start-Sleep -Milliseconds (380..2800 | Get-Random)
+  if ($urlList.Count -eq 0) {return -1}
   return ($urlList | Sort-Object -unique)
 }
 
 ForEach ($site in $sites) {
   Invoke-WebRequest -Uri $site.item("uri") -UserAgent $userAgent -SessionVariable session -UseBasicParsing
   $result = getLinks -uri $site.item("uri") -subpath $site.item("subpath") -pagination $site.item("pagination") -minLength $site.item("minLength") -requireUser $site.item("requireUser") -requiredText $site.item("requiredText") -sesh $session
+  if ($result -eq -1) {continue}
   Write-Host ($result -join "`r`n")
   Start-Sleep -Milliseconds (2000..3800 | Get-Random)
   $SaveFileBrowser = New-Object System.Windows.Forms.SaveFileDialog -Property @{ 
