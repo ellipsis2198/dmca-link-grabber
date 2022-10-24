@@ -6,7 +6,7 @@ $username = ""
 $userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
 $debug = 0
 $MAX_PAGES = 30
-
+$linkCounter = 0
 
 if ($username -eq "") { 
 $username = Read-Host "Enter the model's username"
@@ -15,22 +15,23 @@ $username = Read-Host "Enter the model's username"
 $fileHosts = @{}
 
 $sites = @(
- #shared backend 1
- @{"uri"="gaywebcamblog.com";"subpath"="/performer/$username";"pagination"="/?page=%";"minLength"=52;"startingPage"=1;"externalHost"=1;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #shared backend with gayrecs, tsvideos, tsrecs, tscam - we'll only get external host URLs one time per backend because it's slow
+ #shared backend 2 - fboom users
+ @{"uri"="gaywebcamblog.com";"subpath"="/performer/$username";"pagination"="/?page=%";"minLength"=46;"startingPage"=1;"externalHost"=1;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #shared backend with gayrecs, tsvideos, tsrecs, tscam - we'll only get external host URLs one time per backend because it's slow
  @{"uri"="gayrecs.com";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=46;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #does use external host, but it's identical to gaywebcamblog
- @{"uri"="tsrecs.com";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=52;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #does use external host, but it's identical to gaywebcamblog
- @{"uri"="tscam.net";"subpath"="/performer/$username";"pagination"="/?page=%";"minLength"=52;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #does use external host, but it's identical to gaywebcamblog
- @{"uri"="tsvideos.org";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=52;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"=""}, #does use external host, but it's identical to gaywebcamblog
- #shared backend 2
- @{"uri"="savemycam.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=42;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
- @{"uri"="cbcamsclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=42;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
- @{"uri"="freecinemaclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=42;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
- @{"uri"="webcamrecs.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=42;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ @{"uri"="tsrecs.com";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=46;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #does use external host, but it's identical to gaywebcamblog
+ @{"uri"="tscam.net";"subpath"="/performer/$username";"pagination"="/?page=%";"minLength"=46;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"="$username"}, #does use external host, but it's identical to gaywebcamblog
+ @{"uri"="tsvideos.org";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=46;"startingPage"=1;"externalHost"=0;"externalFormat"="/out.php?url=";"requiredText"=""}, #does use external host, but it's identical to gaywebcamblog
+ #shared backend 1  - various "clubs"
+ @{"uri"="savemycam.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ @{"uri"="mychaturcam.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ @{"uri"="cbcamsclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ @{"uri"="freecinemaclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ @{"uri"="webcamrecs.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
  #misc
- @{"uri"="camstube.me";"subpath"="/tag/$username";"pagination"="/%";"minLength"=52;"startingPage"=0;"externalHost"=0;"externalFormat"="";"requiredText"="video/$username"},
- @{"uri"="tstube.net";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=52;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"=""}, 
- @{"uri"="webcamrips.to";"subpath"="/tag/$username";"pagination"="/?page=%";"minLength"=26;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
- @{"uri"="recurbate.com";"subpath"="/performer/$username";"pagination"="/page/%";"minLength"=42;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="video="}
+ @{"uri"="camstube.me";"subpath"="/tag/$username";"pagination"="/%";"minLength"=46;"startingPage"=0;"externalHost"=0;"externalFormat"="";"requiredText"="video/$username"},
+ @{"uri"="tstube.net";"subpath"="/model/$username";"pagination"="/?page=%";"minLength"=46;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"=""}, 
+ @{"uri"="webcamrips.to";"subpath"="/tag/$username";"pagination"="/?page=%";"minLength"=20;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ @{"uri"="recurbate.com";"subpath"="/performer/$username";"pagination"="/page/%";"minLength"=33;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="play.php?video="}
  #@{"uri"="www.camrips.net";"subpath"="/models/$username";"pagination"="/page/%";"minLength"=52;"requiredText"=""},
  #@{"uri"="www.webcamrips.com";"subpath"="/models/$username";"pagination"="/page/%";"minLength"=52;"requiredText"=""}
 )
@@ -98,6 +99,7 @@ function getLinks($uri, $subpath="", $pagination="", $minLength=52, $startingPag
     if ($debug) { Write-Host "Getting filehost links for DMCA of offending file" }
     ForEach ($url in $urlList) {
         $result = getLinks -uri $url -requiredText $externalFormat -maxpages 1 -includeDMCA 0 -sesh $sesh
+        if ($result -isnot [String]) { continue }
         if ($debug) { Write-Host "Found matching URL: [$result]" }
         $b64str = $result.Substring($($result.IndexOf($externalFormat) + $externalFormat.Length))
         $decodedUrl = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($b64str))
@@ -120,6 +122,8 @@ ForEach ($site in $sites) {
   $result = getLinks -uri $site.item("uri") -subpath $site.item("subpath") -pagination $site.item("pagination") -minLength $site.item("minLength") -requiredText $site.item("requiredText") -startingPage $site.item("startingPage") -externalHost $site.item("externalHost") -externalFormat $site.item("externalFormat") -sesh $session
   if ($result -eq -1) {continue}
   Write-Host ($result -join "`r`n")
+  Write-Host ("Links found for $($site.item('uri')): $($result.Count)")
+  $linkCounter += $result.Count
   Start-Sleep -Milliseconds (2000..3800 | Get-Random)
   $SaveFileBrowser = New-Object System.Windows.Forms.SaveFileDialog -Property @{ 
     InitialDirectory = [Environment]::GetFolderPath('Desktop') 
@@ -133,6 +137,7 @@ ForEach ($site in $sites) {
 }
 ForEach ($filehost in $fileHosts.Keys) {
    $data = $fileHosts[$filehost] | Sort-Object -Unique
+   $linkCounter += $data.Count
    $SaveFileBrowser = New-Object System.Windows.Forms.SaveFileDialog -Property @{ 
     InitialDirectory = [Environment]::GetFolderPath('Desktop') 
     FileName = "$($username)_$($filehost)_$(Get-Date -UFormat '%Y%m%d').txt"
@@ -143,3 +148,4 @@ ForEach ($filehost in $fileHosts.Keys) {
   $output = $SaveFileBrowser.FileName
   ($data -join "`r`n") > $output
 }
+Write-Host "Total # of offending links found: $linkCounter"
