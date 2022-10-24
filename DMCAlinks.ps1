@@ -24,8 +24,8 @@ $sites = @(
  #shared backend 1  - various "clubs"
  @{"uri"="savemycam.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
  @{"uri"="mychaturcam.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
- @{"uri"="cbcamsclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
- @{"uri"="freecinemaclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ #@{"uri"="cbcamsclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
+ #@{"uri"="freecinemaclub.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"},
  @{"uri"="webcamrecs.com";"subpath"="/$username";"pagination"="?page=%";"minLength"=36;"startingPage"=1;"externalHost"=0;"externalFormat"="";"requiredText"="$username"}, 
  #misc
  @{"uri"="camstube.me";"subpath"="/tag/$username";"pagination"="/%";"minLength"=46;"startingPage"=0;"externalHost"=0;"externalFormat"="";"requiredText"="video/$username"},
